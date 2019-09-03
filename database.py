@@ -14,11 +14,9 @@ def create_connection(db_file):
     return None
 
 
-def select_random_handset():
-    database = "./db/phones.sqlite3"
+def select_random_handset(path_to_db):
     # create a database connection
-
-    conn = create_connection(database)
+    conn = create_connection(path_to_db)
     with conn:
         """
         Query all rows in the tasks table

@@ -1,3 +1,4 @@
+import re
 from random import randint
 
 from fonoapi import FonoAPI
@@ -5,6 +6,8 @@ from fonoapi import FonoAPI
 import common
 import database
 
+version_regex = re.compile(r'\d+(\.\d+)+')
+os_name = re.compile(r'.+?(?= )')
 
 class SimCard:
     def __init__(self):
@@ -23,13 +26,14 @@ class Handset(SimCard):
         self.platform = None
         self.os_version = None
 
-    def from_database(self):
-        handset = database.select_random_handset()
+    def from_database(self, path_to_db):
+        # Must be SQLite3
+        handset = database.select_random_handset(path_to_db=path_to_db)
         self.brand = handset['Brand']
         self.device_name = handset['DeviceName']
         self.imei = common.randint_length(13)
-        self.platform = 'android'
-        self.os_version = '1.7.0'
+        self.platform = os_name.search(handset['os']).group(0)
+        self.os_version = version_regex.search(handset['os']).group(0)
 
     def from_api(self, token, brand=""):
         fon = FonoAPI(token)
@@ -38,5 +42,5 @@ class Handset(SimCard):
         self.brand = handset['Brand']
         self.device_name = handset['DeviceName']
         self.imei = common.randint_length(13)
-        self.platform = 'android'
-        self.os_version = '1.7.0'
+        self.platform = os_name.search(handset['os']).group(0)
+        self.os_version = version_regex.search(handset['os']).group(0)
