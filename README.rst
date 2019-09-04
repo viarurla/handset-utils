@@ -9,4 +9,7 @@ A docs directory with more info will be included at a later date.
 Quick start
 -----------
 
-TBC
+WARNING: Explicit reference to FonoAPI in setup.py causes installation to fail, please manually install this package.
+https://pypi.org/project/fonoapi/
+
+User Guide TBC
