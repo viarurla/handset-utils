@@ -3,11 +3,11 @@ from random import randint
 
 from fonoapi import FonoAPI
 
-import common
-import database
+from . import common, database
 
 version_regex = re.compile(r'\d+(\.\d+)+')
 os_name = re.compile(r'.+?(?= )')
+
 
 class SimCard:
     def __init__(self):
