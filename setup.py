@@ -18,12 +18,13 @@ setup(
     description='Utility to query either a database or api and generate a sim equipped handset object',
     long_description=README,
     classifiers=[
-        "Programming Language :: Python :: 3",
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
     install_requires=[
-        'fonoapi>=0.1.2',
         'requests>=2.22.0'
-    ]
+    ],
 )
