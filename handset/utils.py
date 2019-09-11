@@ -18,29 +18,27 @@ class SimCard:
 
 
 class Handset(SimCard):
-    def __init__(self):
+    def __init__(self, token=None, data_source=None, handset=None, brand=""):
         super().__init__()
-        self.brand = None
-        self.device_name = None
-        self.imei = None
-        self.platform = None
-        self.os_version = None
 
-    def from_database(self, path_to_db):
-        # Must be SQLite3
-        handset = database.select_random_handset(path_to_db=path_to_db)
-        self.brand = handset['Brand']
-        self.device_name = handset['DeviceName']
-        self.imei = common.randint_length(13)
-        self.platform = os_name.search(handset['os']).group(0)
-        self.os_version = version_regex.search(handset['os']).group(0)
+        if data_source is not None:
+            try:
+                handset = database.select_random_handset(path_to_db=data_source)
+            except:
+                pass
+        elif token is not None:
+            try:
+                fon = FonoAPI(token)
+                handset_list = fon.getlatest(brand=brand).devices
+                handset = handset_list[randint(0, len(handset_list))]
+            except:
+                pass
+        else:
+            raise ValueError('No data source or fonoapi token provided')
 
-    def from_api(self, token, brand=""):
-        fon = FonoAPI(token)
-        handset_list = fon.getlatest(brand=brand).devices
-        handset = handset_list[randint(0, len(handset_list))]
-        self.brand = handset['Brand']
-        self.device_name = handset['DeviceName']
-        self.imei = common.randint_length(13)
-        self.platform = os_name.search(handset['os']).group(0)
-        self.os_version = version_regex.search(handset['os']).group(0)
+        if handset is not None:
+            self.brand = handset['Brand']
+            self.device_name = handset['DeviceName']
+            self.imei = common.randint_length(13)
+            self.platform = os_name.search(handset['os']).group(0)
+            self.os_version = version_regex.search(handset['os']).group(0)
