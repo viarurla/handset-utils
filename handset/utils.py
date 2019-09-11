@@ -47,4 +47,4 @@ class Handset(SimCard):
             try:
                 self.os_version = version_regex.search(handset['os']).group(0)
             except:
-                self.os_version = '0.0'
+                self.os_version = '4.0.4'
