@@ -25,14 +25,14 @@ class Handset(SimCard):
             try:
                 handset = database.select_random_handset(path_to_db=data_source)
             except:
-                pass
+                raise ValueError('No data source or fonoapi token provided')
         elif token is not None:
             try:
                 fon = FonoAPI(token)
                 handset_list = fon.getlatest(brand=brand).devices
-                handset = handset_list[randint(0, len(handset_list))]
+                handset = handset_list[randint(0, len(handset_list) - 1)]
             except:
-                pass
+                raise ValueError('Error retrieving handset info using fonoapi token, check the token is valid!')
         else:
             raise ValueError('No data source or fonoapi token provided')
 
@@ -40,5 +40,11 @@ class Handset(SimCard):
             self.brand = handset['Brand']
             self.device_name = handset['DeviceName']
             self.imei = common.randint_length(13)
-            self.platform = os_name.search(handset['os']).group(0)
-            self.os_version = version_regex.search(handset['os']).group(0)
+            try:
+                self.platform = os_name.search(handset['os']).group(0)
+            except:
+                self.platform = 'unknown'
+            try:
+                self.os_version = version_regex.search(handset['os']).group(0)
+            except:
+                self.os_version = '0.0'
