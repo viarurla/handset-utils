@@ -1,6 +1,6 @@
-=======
+====
 Handset-Utils
-=====
+====
 
 handset-utils is a little application designed to query either a SQLite database or FonoAPI and return a handset object. The primary use case is generating test data for external applications using somewhat realistic information.
 
