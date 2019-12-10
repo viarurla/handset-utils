@@ -9,3 +9,8 @@ A docs directory with more info will be included at a later date.
 Quick start
 -----------
 User guide TBC
+
+To import the Handset object, please do this following:
+```
+from handset.utils import Handset
+```
